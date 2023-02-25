@@ -1,0 +1,98 @@
+.container {
+	/* flex: 0.1; */
+
+	border: 1px solid greenyellow;
+}
+.footerTop {
+	border: 1px solid skyblue;
+	/* height: calc(100vh - 295px); */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 50px;
+	/* height: 100%; */
+	/* height: auto; */
+}
+.trackInfos {
+}
+
+.vinylContainer {
+	padding: 40px 140px 40px 40px;
+	border-radius: 20px;
+	background: #373738;
+}
+.cover {
+	border-radius: 50%;
+	position: relative;
+}
+.vinyl {
+	position: relative;
+}
+.vinylArmImg {
+}
+
+@keyframes rotation {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+.footerBottom {
+	background-color: gray;
+	border: 1px solid red;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 30px;
+	/* margin-top: 50px; */
+}
+.footerLeft {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+.playlists {
+	display: flex;
+	gap: 80px;
+}
+
+/* FOOTER RIGHT */
+.footerRight {
+	display: flex;
+	align-items: center;
+}
+.songsContainer {
+	display: flex;
+	gap: 30px;
+}
+.songVinyl {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	background-color: #000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	transform: translate(-180px) rotate(-360deg);
+	transition: all 2s ease-in-out;
+}
+
+.songVinylImg {
+	border-radius: 50%;
+}
+.songTitle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: #fff;
+
+	text-align: center;
+}
