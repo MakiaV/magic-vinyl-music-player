@@ -1,0 +1,41 @@
+.container {
+	color: #fff;
+	padding: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+.artistContainer {
+	width: 800px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: justify;
+}
+.card {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 15px;
+	padding: 15px;
+	border-radius: 10px;
+	background: #17171a;
+	box-shadow: -5px 5px 10px #09090a, 5px -5px 10px #25252a;
+}
+.artistImg {
+	border-radius: 10px;
+}
+.artistDescription {
+	padding: 10px;
+	border-radius: 10px;
+	background: #17171a;
+	box-shadow: -5px 5px 10px #09090a, 5px -5px 10px #25252a;
+}
+@media (max-width: 750px) {
+	.attribution {
+		font-size: 12px;
+	}
+}

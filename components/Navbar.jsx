@@ -1,77 +1,51 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
-import { useState } from "react";
 import { useRouter } from "next/router";
-import { css } from "@emotion/css";
 
 function Navbar() {
-	const [isAboutActive, setIsAboutActive] = useState(false);
-	const [isHomeActive, setIsHomeActive] = useState(false);
-
 	const router = useRouter();
-
-	console.log("router", router.pathname);
-
-	const activeHome = () => {
-		setIsAboutActive(false);
-		setIsHomeActive(true);
-	};
-	const activeAbout = () => {
-		setIsAboutActive(true);
-		setIsHomeActive(false);
-	};
 
 	const spinAndMove =
 		router.pathname == "/about" && `translate(290px) rotate(360deg)`;
 
 	return (
 		<div className={styles.container}>
-			<Link href="/" onClick={activeHome}>
+			<Link href="/">
 				<div className={styles.vinylCase}>
 					<Image
 						className={styles.vinylCoverHome}
-						src="/cover4.webp"
+						src="/home.webp"
 						height={90}
 						width={90}
-						alt="cover1"
+						alt="home"
 					/>
 
 					<div
-						className={css`
-							position: absolute;
-							z-index: 1;
-							bottom: 5px;
-							left: 5px;
-
-							width: 80px;
-							height: 80px;
-							transform: ${spinAndMove};
-							transition: all 1s ease-in-out;
-						`}
+						className={styles.vinyl}
+						style={{ transform: spinAndMove }}
 					>
 						<Image
 							src="/disc.png"
 							height={80}
 							width={80}
 							alt="vinyl"
-							// className={styles.vinyl}
 						/>
 					</div>
 					<div className={styles.vinylCaseTxt}>
-						<span>HOME</span>
+						<span>VINYL</span>
 					</div>
 				</div>
 			</Link>
 
-			<Link href="/about" onClick={activeAbout}>
+			<Link href="/about">
 				<div className={styles.vinylCase}>
 					<Image
 						className={styles.vinylCoverAbout}
-						src="/cover5.webp"
+						src="/about.webp"
 						height={90}
 						width={90}
-						alt="cover2"
+						alt="about"
 					/>
 
 					<div className={styles.vinyl}>

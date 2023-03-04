@@ -1,55 +1,13 @@
-.container {
-	/* flex: 0.1; */
-
-	border: 1px solid greenyellow;
-}
-.footerTop {
-	border: 1px solid skyblue;
-	/* height: calc(100vh - 295px); */
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 50px;
-	/* height: 100%; */
-	/* height: auto; */
-}
-.trackInfos {
-}
-
-.vinylContainer {
-	padding: 40px 140px 40px 40px;
-	border-radius: 20px;
-	background: #373738;
-}
-.cover {
-	border-radius: 50%;
-	position: relative;
-}
-.vinyl {
-	position: relative;
-}
-.vinylArmImg {
-}
-
-@keyframes rotation {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-.footerBottom {
-	background-color: gray;
-	border: 1px solid red;
-	position: fixed;
+.footer {
+	background-color: #323236;
+	color: #fff;
+	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	display: flex;
 	justify-content: space-between;
-	padding: 10px 30px;
-	/* margin-top: 50px; */
+	padding: 10px 100px;
 }
 .footerLeft {
 	display: flex;
@@ -57,31 +15,47 @@
 	align-items: center;
 	gap: 10px;
 }
+.footerLeftTitle {
+	font-weight: 700;
+}
 .playlists {
 	display: flex;
 	gap: 80px;
 }
 
-/* FOOTER RIGHT */
 .footerRight {
 	display: flex;
 	align-items: center;
 }
+
 .songsContainer {
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	gap: 30px;
+	flex-wrap: wrap;
 }
+
 .songVinyl {
-	width: 120px;
-	height: 120px;
+	width: 130px;
+	height: 130px;
 	border-radius: 50%;
 	background-color: #000;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	transform: translate(-180px) rotate(-360deg);
-	transition: all 2s ease-in-out;
+}
+
+.songVinyl:hover .btn {
+	display: initial;
+}
+
+.songVinyl:hover .equalizer {
+	display: none;
+}
+.songVinyl:hover .songTitle {
+	display: none;
 }
 
 .songVinylImg {
@@ -93,6 +67,45 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	color: #fff;
-
 	text-align: center;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btnIndexEqua {
+	z-index: 3;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.btn {
+	display: none;
+}
+.playPause {
+	margin-top: 8px;
+	margin-right: -5px;
+}
+.equalizer {
+	margin-right: -5px;
+	margin-top: 8px;
+}
+
+@media (max-width: 1500px) {
+	/* .container {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	} */
+	.footer {
+		position: initial;
+		display: flex;
+		flex-direction: column;
+		gap: 50px;
+		align-items: center;
+	}
 }

@@ -5,11 +5,10 @@ import { selectedPlaylist } from "@/redux/features/playerSlice";
 import { updatePlaylist } from "@/redux/features/playerSlice";
 import { MdPause, MdPlayArrow } from "react-icons/md";
 
-function Playlist({ playlist }) {
+function Playlist({ playlist, controlsColor }) {
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state);
-	console.log("Store ds PL", store);
-	// console.log("playlist ds PL", playlist);
+
 	return (
 		<div
 			className={styles.container}
@@ -38,10 +37,10 @@ function Playlist({ playlist }) {
 				className={styles.playPauseBtnContainer}
 				style={
 					JSON.stringify(store.player.playlist) ===
-						JSON.stringify(playlist) &&
-					store.player.playlistIsPlaying
+					JSON.stringify(playlist)
 						? {
 								display: "block",
+								// backgroundColor: controlsColor,
 						  }
 						: undefined
 				}
@@ -55,6 +54,7 @@ function Playlist({ playlist }) {
 								currentSongIndex: store.player.currentSongIndex,
 							})
 						);
+						dispatch(selectedPlaylist({ playlist: playlist }));
 					}}
 					className={styles.playPauseBtn}
 					style={
@@ -62,7 +62,7 @@ function Playlist({ playlist }) {
 							JSON.stringify(playlist) &&
 						store.player.playlistIsPlaying
 							? {
-									backgroundColor: "skyblue",
+									// backgroundColor: controlsColor,
 							  }
 							: undefined
 					}
@@ -73,13 +73,13 @@ function Playlist({ playlist }) {
 						<MdPause
 							size={25}
 							className={styles.playerIcon}
-							color="#000"
+							color={controlsColor}
 						/>
 					) : (
 						<MdPlayArrow
 							size={25}
 							className={styles.playerIcon}
-							color="#000"
+							color={controlsColor}
 						/>
 					)}
 				</div>

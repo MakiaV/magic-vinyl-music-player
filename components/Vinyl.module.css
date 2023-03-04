@@ -1,0 +1,196 @@
+.vinylContainer {
+	padding: 30px 100px 30px 30px;
+	border-radius: 20px;
+	background: #373738;
+}
+.vinyl {
+	position: relative;
+}
+.vinylDisc {
+	position: relative;
+	border-radius: 99%;
+	width: 300px;
+	height: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #17171a;
+	box-shadow: inset 14px 14px 28px #09090a, inset -14px -14px 28px #25252a;
+}
+.cover {
+	border-radius: 50%;
+}
+.vinylHole {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: #373738;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.vinylHoleDot {
+	background: #fff;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	position: absolute;
+
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.vinylArm {
+	position: absolute;
+	top: -25px;
+	left: 260px;
+
+	transition: all 0.1s linear;
+	transform-origin: 63px 43px;
+}
+
+.circleProgressBarContainer {
+	position: absolute;
+	left: 270px;
+	bottom: -70px;
+}
+.circleProgressBar {
+	width: 100px;
+	height: 100px;
+	position: relative;
+	top: -50px;
+}
+.circleProgressBarSvg {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 50%;
+}
+.circle {
+	fill: none;
+	stroke: url(#gradient);
+	stroke-width: 10;
+	stroke-linecap: round;
+}
+
+.vinylBtnControl {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -46%);
+}
+.plauseVinylBtn {
+	border-radius: 50%;
+
+	box-shadow: inset -5px 5px 10px #25252a,
+		inset 5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+
+.playVinylBtn {
+	border-radius: 50%;
+	box-shadow: -5px 5px 10px #25252a, 5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+
+.goPreviousSong {
+	position: absolute;
+	top: 0;
+
+	border-radius: 3px;
+	box-shadow: -5px 5px 10px #25252a, 5px -5px 10px rgba(255, 255, 255, 0.1);
+
+	transition: box-shadow 1s ease-out;
+}
+.goPreviousSong:active {
+	box-shadow: inset -5px 5px 10px #25252a,
+		inset 5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+.goNextSong {
+	position: absolute;
+	bottom: 0;
+	border-radius: 3px;
+	box-shadow: -5px 5px 10px #25252a, 5px -5px 10px rgba(255, 255, 255, 0.1);
+	transition: box-shadow 1s ease-out;
+}
+.goNextSong:active {
+	box-shadow: inset -5px 5px 10px #25252a,
+		inset 5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+
+.currentTime {
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	left: 250px;
+	font-size: 12px;
+}
+.duration {
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	left: 366px;
+	font-size: 12px;
+}
+
+/* Volume Bar */
+.volumeBarContainer {
+	display: flex;
+	transform: rotate(-90deg);
+	align-items: center;
+	gap: 10px;
+	position: absolute;
+	top: 120px;
+	left: 315px;
+}
+.volumeIcon {
+	cursor: pointer;
+}
+.volumeBar {
+	position: relative;
+	width: 100px;
+	height: 6px;
+	background: #2e2d2d;
+	border-radius: 10px;
+}
+
+.volumeBar input {
+	position: absolute;
+	width: 100px;
+	top: -7px;
+	left: 0;
+	cursor: pointer;
+	z-index: 99;
+	opacity: 0;
+}
+.volumeBar .volumeBar2 {
+	position: absolute;
+	height: 100%;
+	border-radius: 10px;
+}
+
+@media (max-width: 450px) {
+	.vinylDisc {
+		width: 200px;
+		height: 200px;
+	}
+	.cover {
+		border-radius: 50%;
+		width: 150px;
+		height: 150px;
+	}
+	.vinylArm {
+		display: none;
+	}
+	.circleProgressBarContainer {
+		position: absolute;
+		left: 200px;
+		bottom: 0;
+	}
+	.currentTime,
+	.duration,
+	.volumeBarContainer {
+		display: none;
+	}
+}

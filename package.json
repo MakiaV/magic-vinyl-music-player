@@ -1,5 +1,5 @@
 {
-	"name": "c4-api-rest",
+	"name": "magic-vinyl-music-player",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -9,7 +9,6 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
-		"@emotion/css": "^11.10.6",
 		"@next/font": "13.1.6",
 		"@reduxjs/toolkit": "^1.9.3",
 		"eslint": "8.34.0",

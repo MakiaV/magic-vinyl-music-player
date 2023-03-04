@@ -1,337 +1,239 @@
-import { css } from "@emotion/css";
-import { useCallback, useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 import styles from "./Footer.module.css";
 import Playlist from "./Playlist";
-import { useSelector, useDispatch } from "react-redux";
-import { updatePlaylist } from "@/redux/features/playerSlice";
-import { MdPlayArrow, MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import { MdPause } from "react-icons/md";
-import Link from "next/link";
-import {
-	playPause,
-	nextSong,
-	nextSongOnEnded,
-	previousSong,
-} from "@/redux/features/playerSlice";
-
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { MdPause, MdPlayArrow } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSongFromPlaylist } from "@/redux/features/playerSlice";
 
-function Footer({ playlists }) {
-	const [duration, setDuration] = useState("0");
-	const [seekTime, setSeekTime] = useState("0");
-	const [appTime, setAppTime] = useState("0");
-	const [volume, setVolume] = useState("0.5");
-	const [progressBar, setProgressBar] = useState(0);
-	const [volumeBarProgress, setVolumeBarProgress] = useState("50");
-	const reactAudioPlayer = useRef(null);
-	const dispatch = useDispatch();
+const Footer = () => {
+	const [playlists, setPlaylists] = useState([]);
 	const store = useSelector((state) => state);
+	const dispatch = useDispatch();
 	const playlistSongs = store.player.selectedPlaylist?.songs;
-	const router = useRouter();
+	const selectedPlaylist = store.player.selectedPlaylist;
 
-	const rotation = `rotation infinite
-	5s linear`;
-
-	const pauseRotation = store.player.playlistIsPlaying ? `running` : `paused`;
-	const vinylArm = store.player.playlistIsPlaying
-		? `rotate(0deg)`
-		: `rotate(-25deg)`;
-	const background1 = null ? `running` : `paused`;
-	const min = "0";
-	const max = duration;
-
-	const getTime = (time) =>
-		`${Math.floor(time / 60)}:${`0${Math.floor(time % 60)}`.slice(-2)}`;
-
-	const onInput = (event) => setSeekTime(event.target.value);
-	const onTimeUpdate = (event) => {
-		setAppTime(event.target.currentTime);
-		const time = reactAudioPlayer.current.currentTime;
-	};
-	const onLoadedData = (event) => setDuration(event.target.duration);
-
-	const playSong = useCallback(() => {
-		if (store.player.playlistSongs) {
-			setTimeout(function () {
-				reactAudioPlayer.current.play();
-			}, 0);
-		}
-	}, [store.player.playlistSongs]);
-	const pauseSong = useCallback(() => {
-		store.player.playlistSongs && reactAudioPlayer.current.pause();
-	}, [store.player.playlistSongs]);
-
-	const updateIsPlaying = () => {
-		dispatch(playPause({}));
-	};
-	const goNextSong = () => {
-		dispatch(nextSong({}));
-
-		reactAudioPlayer.current.currentTime = 0;
-		pauseSong();
-		playSong();
-	};
-	const goNextSongOnEnded = () => {
-		dispatch(nextSongOnEnded({}));
-
-		reactAudioPlayer.current.currentTime = 0;
-		pauseSong();
-		playSong();
-	};
-	const goPreviousSong = () => {
-		if (reactAudioPlayer.current.currentTime < 2) {
-			dispatch(previousSong({}));
-			pauseSong();
-			playSong();
-		} else {
-			reactAudioPlayer.current.currentTime = 0;
-
-			playSong();
-		}
-	};
-	useEffect(() => {
-		if (store.player.playlistIsPlaying) {
-			setProgressBar((parseInt(appTime) / parseInt(duration)) * 100);
-			playSong();
-		} else {
-			pauseSong();
-		}
-	}, [
-		playSong,
-		pauseSong,
-		store.player.playlistIsPlaying,
-		appTime,
-		duration,
-	]);
-	useEffect(() => {
-		if (store.player.playlistSongs) {
-			reactAudioPlayer.current.currentTime = 0;
-			setProgressBar(0);
-			setSeekTime("0");
-		}
-	}, [duration, store.player.playlistSongs, store.player.currentSongIndex]);
-	useEffect(() => {
-		if (store.player.playlistSongs) {
-			reactAudioPlayer.current.currentTime = seekTime;
-		}
-	}, [seekTime, store.player.playlistSongs]);
+	const controlsColor =
+		store.player.playlist?.songs[store.player.currentSongIndex].colors?.c2;
+	const colorProgress1 =
+		store.player.playlist?.songs[store.player.currentSongIndex].colors?.c3;
+	const colorProgress2 =
+		store.player.playlist?.songs[store.player.currentSongIndex].colors?.c4;
 
 	useEffect(() => {
-		if (store.player.playlistSongs) {
-			reactAudioPlayer.current.volume = volume;
-		}
-	}, [volume, store.player.playlistSongs]);
+		const fetchPlaylists = async () => {
+			const response = await fetch("/api");
+			const data = await response.json();
+			setPlaylists(data);
+		};
+		fetchPlaylists();
+	}, []);
+
 	return (
-		<div className={styles.container}>
-			<div
-				style={
-					router.pathname == "/"
-						? { display: "flex" }
-						: { display: "none" }
-				}
-				className={styles.footerTop}
-			>
-				<div className={styles.trackInfos}>
-					<h1>Track Infos</h1>
+		<div className={styles.footer}>
+			<div className={styles.footerLeft}>
+				<span className={styles.footerLeftTitle}>PLAYLISTS</span>
+				<div className={styles.playlists}>
+					{playlists?.map((playlist) => (
+						<div key={playlist.id}>
+							<Playlist
+								playlist={playlist}
+								controlsColor={controlsColor}
+							/>
+						</div>
+					))}
 				</div>
-				<div className={styles.vinylContainer}>
-					<div className={styles.vinyl}>
-						<div
-							className={css`
-								display: flex;
-								width: 300px;
-								height: 300px;
-								display: flex;
-								justify-content: center;
-								align-items: center;
-
-								border-radius: 99%;
-
-								animation: ${rotation};
-								animation-play-state: ${pauseRotation};
-
-								@keyframes rotation {
-									from {
-										transform: rotate(0deg);
-									}
-									to {
-										transform: rotate(360deg);
-									}
-								}
-								background: #17171a;
-								box-shadow: inset 14px 14px 28px #09090a,
-									inset -14px -14px 28px #25252a;
-							`}
-						>
-							<Image
-								src={
-									store.player.playlist?.songs[
-										store.player.currentSongIndex
-									].cover
-								}
-								alt="coverart"
-								width={200}
-								height={200}
-								className={styles.cover}
-							/>
-						</div>
-
-						<div
-							className={css`
-								position: absolute;
-								top: -30px;
-								left: 260px;
-								transform: ${vinylArm};
-								transition: all 0.1s linear;
-								transform-origin: 102px 68px;
-							`}
-						>
-							<Image
-								src="/vinyl-arm.png"
-								alt="vinyl-arm"
-								width={91.5}
-								height={156}
-								// width={366}
-								// height={624}
-							/>
-						</div>
-
-						<div
-							className={css`
-								border: 2px solid ${background1};
-								width: 80px;
-								height: 80px;
-								display: flex;
-								justify-content: center;
-								align-items: center;
-								border-radius: 50%;
-								position: absolute;
-								left: 300px;
-								bottom: 3px;
-							`}
-						>
-							{1 ? (
-								<MdPause
-									size={30}
-									color={`${background1}`}
-									// onClick={() => updateIsPlaying()}
-								/>
-							) : (
-								<MdPlayArrow
-									size={30}
-									color={`${background1}`}
-									// onClick={() => updateIsPlaying()}
-								/>
-							)}
-						</div>
-					</div>
-				</div>
-				{store.player.playlistSongs && (
-					<div className={styles.controls}>
-						<div className={styles.controlIcons}>
-							<MdSkipPrevious
-								size={25}
-								onClick={() => goPreviousSong()}
-							/>
-							{store.player.playlistIsPlaying ? (
-								<span className={styles.controlIconsPlayPause}>
-									<MdPause
-										size={30}
-										onClick={() => updateIsPlaying()}
-									/>
-								</span>
-							) : (
-								<span className={styles.controlIconsPlayPause}>
-									<MdPlayArrow
-										size={30}
-										onClick={() => updateIsPlaying()}
-									/>
-								</span>
-							)}
-							<MdSkipNext
-								size={25}
-								onClick={() => goNextSong()}
-							/>
-						</div>
-						<div className={styles.seekbar}>
-							<span className={styles.currentTime}>
-								{appTime === "0" ? "0:00" : getTime(appTime)}
-							</span>
-							<div className={styles.bar}>
-								<input
-									type="range"
-									step="any"
-									value={appTime}
-									min={min}
-									max={max}
-									onInput={onInput}
-								/>
-								<div
-									className={styles.bar2}
-									style={{
-										width: progressBar + "%",
-									}}
-								></div>
-								<div
-									className={styles.dot}
-									style={{
-										left: progressBar + "%",
-									}}
-								></div>
-							</div>
-
-							<span className={styles.duration}>
-								{max === "0" ? "0:00" : getTime(max)}
-							</span>
-						</div>
-						<audio
-							src={
-								store.player.playlistSongs[
-									store.player.currentSongIndex
-								]
-							}
-							ref={reactAudioPlayer}
-							onTimeUpdate={onTimeUpdate}
-							onLoadedData={onLoadedData}
-							onEnded={goNextSongOnEnded}
-						/>
-					</div>
-				)}
 			</div>
-			<div className={styles.footerBottom}>
-				<div className={styles.footerLeft}>
-					<span>PLAYLISTS</span>
-					<div className={styles.playlists}>
-						{playlists?.map((playlist) => (
-							<div key={playlist.id}>
-								<Playlist playlist={playlist} />
+			<div className={styles.footerRight}>
+				<div className={styles.songsContainer}>
+					{playlistSongs?.map((song, index) => (
+						<div className={styles.songVinyl} key={song.id}>
+							<Image
+								className={styles.songVinylImg}
+								src={song.cover}
+								width={100}
+								height={100}
+								alt="cover"
+							/>
+							<div
+								style={
+									JSON.stringify(
+										store.player.playlistSongs
+									) ===
+										JSON.stringify(
+											selectedPlaylist.songs.map(
+												(song) => song.songSrc
+											)
+										) &&
+									store.player.playlistIsPlaying &&
+									store.player.currentSongIndex == index
+										? {
+												display: "none",
+												opacity: "1",
+										  }
+										: {}
+								}
+								className={styles.songTitle}
+							>
+								<span>{song.title}</span>
 							</div>
-						))}
-					</div>
-				</div>
-				<div className={styles.footerRight}>
-					<div className={styles.songsContainer}>
-						{playlistSongs?.map((song) => (
-							<div className={styles.songVinyl} key={song.id}>
-								<Image
-									className={styles.songVinylImg}
-									src={song.cover}
-									width={90}
-									height={90}
-									alt="cover"
-								/>
-								<div className={styles.songTitle}>
-									{song.title}
-								</div>
-							</div>
-						))}
-					</div>
+							<span className={styles.btnIndexEqua}>
+								<span className={styles.btn}>
+									{JSON.stringify(
+										store.player.playlistSongs
+									) ===
+										JSON.stringify(
+											selectedPlaylist.songs.map(
+												(song) => song.songSrc
+											)
+										) &&
+									store.player.playlistIsPlaying &&
+									store.player.currentSongIndex === index ? (
+										<MdPause
+											size={20}
+											style={{ cursor: "pointer" }}
+											className={styles.playPause}
+											onClick={() => {
+												dispatch(
+													selectSongFromPlaylist({
+														selectedPlaylist,
+														index,
+													})
+												);
+											}}
+										/>
+									) : (
+										<MdPlayArrow
+											size={20}
+											style={{ cursor: "pointer" }}
+											className={styles.playPause}
+											onClick={() => {
+												dispatch(
+													selectSongFromPlaylist({
+														selectedPlaylist,
+														index,
+													})
+												);
+											}}
+										/>
+									)}
+								</span>
+
+								<span className={styles.equalizer}>
+									{JSON.stringify(
+										store.player.playlistSongs
+									) ===
+										JSON.stringify(
+											selectedPlaylist.songs.map(
+												(song) => song.songSrc
+											)
+										) &&
+										store.player.playlistIsPlaying &&
+										store.player.currentSongIndex ===
+											index && (
+											<svg
+												width="20px"
+												height="20px"
+												viewBox="0 0 100 100"
+												preserveAspectRatio="xMidYMid"
+											>
+												<g transform="rotate(180 50 50)">
+													<rect
+														x="9.166666666666668"
+														y="12.5"
+														width="15"
+														height="40"
+														fill="#e3f1ff"
+													>
+														<animate
+															attributeName="height"
+															calcMode="spline"
+															values="50;75;10;50"
+															dur="0.8695652173913042s"
+															keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+															repeatCount="indefinite"
+															begin="-0.6956521739130435s"
+														></animate>
+													</rect>
+													<rect
+														x="25.833333333333336"
+														y="12.5"
+														width="15"
+														height="40"
+														fill={colorProgress2}
+													>
+														<animate
+															attributeName="height"
+															calcMode="spline"
+															values="50;75;10;50"
+															dur="0.8695652173913042s"
+															keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+															repeatCount="indefinite"
+															begin="-0.5217391304347825s"
+														></animate>
+													</rect>
+													<rect
+														x="42.5"
+														y="12.5"
+														width="15"
+														height="40"
+														fill={colorProgress1}
+													>
+														<animate
+															attributeName="height"
+															calcMode="spline"
+															values="50;75;10;50"
+															dur="0.8695652173913042s"
+															keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+															repeatCount="indefinite"
+															begin="-0.34782608695652173s"
+														></animate>
+													</rect>
+													<rect
+														x="59.16666666666667"
+														y="12.5"
+														width="15"
+														height="40"
+														fill={controlsColor}
+													>
+														<animate
+															attributeName="height"
+															calcMode="spline"
+															values="50;75;10;50"
+															dur="0.8695652173913042s"
+															keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+															repeatCount="indefinite"
+															begin="0s"
+														></animate>
+													</rect>
+													<rect
+														x="75.83333333333333"
+														y="12.5"
+														width="15"
+														height="40"
+														fill={controlsColor}
+													>
+														<animate
+															attributeName="height"
+															calcMode="spline"
+															values="50;75;10;50"
+															dur="0.8695652173913042s"
+															keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+															repeatCount="indefinite"
+															begin="-0.17391304347826086s"
+														></animate>
+													</rect>
+												</g>
+											</svg>
+										)}
+								</span>
+							</span>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>
 	);
-}
+};
 
 export default Footer;

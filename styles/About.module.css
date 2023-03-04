@@ -1,3 +1,33 @@
 .container {
-	flex: 0.9;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 50px;
+}
+.attribution {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+}
+.bensoundLink {
+	text-decoration: none;
+	color: beige;
+	margin-left: 10px;
+}
+
+.copyright {
+	font-size: 20px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: 50px;
+}
+
+@media (max-width: 750px) {
+	.attribution {
+		font-size: 12px;
+	}
 }

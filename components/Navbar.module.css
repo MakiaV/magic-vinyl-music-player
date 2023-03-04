@@ -1,8 +1,6 @@
 .container {
 	padding: 10px;
-	border: 1px solid black;
-	/* flex: 0.1; */
-
+	background-color: #373738;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -12,30 +10,8 @@
 	position: relative;
 	width: 90px;
 	height: 90px;
-	border-radius: 3px;
 	z-index: 2;
 }
-.vinylCaseTxt {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	border-radius: 3px;
-
-	background: rgba(0, 0, 0, 0.2);
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 2;
-	color: #fff;
-	font-weight: 900;
-}
-.vinylCaseTxt:hover {
-	background: rgba(0, 0, 0, 0.4);
-}
-
 .vinylCoverHome,
 .vinylCoverAbout {
 	position: absolute;
@@ -49,7 +25,6 @@
 .vinylCoverAbout {
 	box-shadow: -2px 0px 2px 0px rgba(0, 0, 0, 0.6);
 }
-
 .vinyl {
 	position: absolute;
 	z-index: 1;
@@ -58,13 +33,23 @@
 
 	width: 80px;
 	height: 80px;
+	transition: all 1s ease-in-out;
 }
-/* @keyframes spinAndMove {
-	0% {
-		bottom: 5px;
-		left: 5px;
-	}
-	100% {
-		transform: translate(290px) rotate(-360deg);
-	}
-} */
+.vinylCaseTxt {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.4);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+	color: #fff;
+	font-weight: 900;
+}
+.vinylCaseTxt:hover {
+	background: rgba(0, 0, 0, 0.2);
+}
