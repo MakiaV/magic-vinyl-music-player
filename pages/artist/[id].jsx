@@ -28,7 +28,7 @@ function Artist() {
 						<Image
 							className={styles.artistImg}
 							src={artist?.image}
-							width={180}
+							width={200}
 							height={180}
 							alt="artistImg"
 						/>

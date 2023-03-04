@@ -32,10 +32,6 @@ const Vinyl = () => {
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state);
 
-	const playlistSongs = store.player.selectedPlaylist?.songs;
-
-	const selectedPlaylist = store.player.selectedPlaylist;
-
 	const rotation = `rotation infinite
 	5s linear`;
 
