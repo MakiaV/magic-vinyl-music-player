@@ -96,11 +96,6 @@
 }
 
 @media (max-width: 1500px) {
-	/* .container {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-	} */
 	.footer {
 		position: initial;
 		display: flex;

@@ -27,10 +27,8 @@
 	z-index: 1;
 	bottom: 5px;
 	left: 5px;
-	/* display: block; */
 	width: 90px;
 	height: 90px;
-
 	transition: all 0.5s ease-in-out;
 }
 .vinylCase:hover .vinyl {
@@ -54,7 +52,6 @@
 
 .container:hover .playPauseBtnContainer {
 	display: block;
-	/* transform: rotate(360deg); */
 }
 .playPauseBtn {
 	display: flex;
@@ -67,8 +64,5 @@
 	bottom: 58px;
 	left: 50px;
 	z-index: 2;
-
 	border-radius: 50%;
-
-	/* transition: all 0.2s ease-in-out; */
 }

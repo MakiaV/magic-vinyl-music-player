@@ -40,7 +40,6 @@ function Playlist({ playlist, controlsColor }) {
 					JSON.stringify(playlist)
 						? {
 								display: "block",
-								// backgroundColor: controlsColor,
 						  }
 						: undefined
 				}
@@ -57,15 +56,6 @@ function Playlist({ playlist, controlsColor }) {
 						dispatch(selectedPlaylist({ playlist: playlist }));
 					}}
 					className={styles.playPauseBtn}
-					style={
-						JSON.stringify(store.player.playlist) ===
-							JSON.stringify(playlist) &&
-						store.player.playlistIsPlaying
-							? {
-									// backgroundColor: controlsColor,
-							  }
-							: undefined
-					}
 				>
 					{JSON.stringify(store.player.playlist) ===
 						JSON.stringify(playlist) &&
